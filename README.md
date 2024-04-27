@@ -32,4 +32,3 @@ GymPass style app.
 - [ ] O usuário não pode fazer check-in se não estiver próximo a uma academia. (100m)
 - [ ] O check-in só pode ser validado até 20 min após o check-in.
 - [ ] O check-in só pode ser validado pela academia que o usuário fez o check-in.
-# api-solid
