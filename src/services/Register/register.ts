@@ -1,6 +1,6 @@
-import { UsersRepositoryInterface } from "@/repositories/users-repository-interface";
 import { hash } from "bcryptjs";
-import CustomError from "./errors/CustomError";
+import CustomError from "../@errors/CustomError";
+import { UsersRepositoryInterface } from "@/repositories/prisma/interfaces/users-repository-interface";
 
 interface RegisterServiceRequest {
   name: string;

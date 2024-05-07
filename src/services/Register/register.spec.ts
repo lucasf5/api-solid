@@ -1,4 +1,4 @@
-import { expect, describe, it, vitest } from "vitest";
+import { expect, describe, it } from "vitest";
 import { RegisterService } from "./register";
 import { compare } from "bcryptjs";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";

@@ -1,5 +1,5 @@
 import { Prisma, User } from "@prisma/client";
-import { UsersRepositoryInterface } from "../users-repository-interface";
+import { UsersRepositoryInterface } from "../prisma/interfaces/users-repository-interface";
 
 class InMemoryUsersRepository implements UsersRepositoryInterface {
   private users: User[] = [];
@@ -23,6 +23,11 @@ class InMemoryUsersRepository implements UsersRepositoryInterface {
 
   findByEmail(email: string): Promise<User | null> {
     const user = this.users.find((user) => user.email === email);
+    return Promise.resolve(user || null);
+  }
+
+  findById(id: string): Promise<User | null> {
+    const user = this.users.find((user) => user.id === id);
     return Promise.resolve(user || null);
   }
 }
