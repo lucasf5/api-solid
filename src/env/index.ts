@@ -6,6 +6,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
   HOST: z.coerce.string().default("0.0.0.0"),
   NODE_ENV: z.enum(["dev", "test", "prod"]).default("dev"),
+  JWT_SECRET: z.string(),
 });
 
 // safeParse irá validar para ver se as variáveis de ambiente estão corretas
