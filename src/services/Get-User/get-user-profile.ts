@@ -1,6 +1,6 @@
-import { UsersRepositoryInterface } from "@/repositories/prisma/users-repository-interface";
-import CustomError from "../@errors/CustomError";
+import { UsersRepositoryInterface } from "@/repositories/prisma/interfaces/users-repository-interface";
 import { User } from "@prisma/client";
+import CustomError from "../@errors/CustomError";
 
 interface GetUserProfileServiceRequest {
   userId: string;

@@ -30,4 +30,10 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
 
     return user;
   }
+
+  async getAllUsers(): Promise<User[]> {
+    const users = await prisma.user.findMany();
+
+    return users;
+  }
 }

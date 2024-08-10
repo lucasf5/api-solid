@@ -1,8 +1,6 @@
-import { z } from "zod";
-import { FastifyRequest, FastifyReply } from "fastify";
-import { RegisterService } from "@/services/register";
-import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
 import { makeRegisterService } from "@/services/@factories/make-register-service";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
 export const registerController = async (
   req: FastifyRequest,
