@@ -1,8 +1,7 @@
-import CustomError from "../@errors/CustomError";
-import { CheckIn } from "@prisma/client";
-import { CheckinRepositoryInterface } from "@/repositories/prisma/interfaces/checkIns-repository-interface";
 import { GymsRepositoryInterface } from "@/repositories/prisma/interfaces/gyms-repository-interface";
-import { getDistance } from "@/ultis/get-distance";
+import { CheckinsRepository } from "@/repositories/prisma/prisma-check-ins-repository";
+import { CheckIn } from "@prisma/client";
+import CustomError from "../@errors/CustomError";
 import { validateCheckinCoordinate } from "./utils/validate-checkin-coordinate";
 
 interface CheckinServiceRequest {
@@ -18,7 +17,7 @@ interface CheckinServiceResponse {
 
 export class CheckinService {
   constructor(
-    private checkinRepository: CheckinRepositoryInterface,
+    private checkinRepository: CheckinsRepository,
     private gymsRepository: GymsRepositoryInterface
   ) {
     this.checkinRepository = checkinRepository;

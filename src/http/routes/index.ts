@@ -1,13 +1,14 @@
 import { FastifyInstance } from "fastify";
 
-import { AuthenticateController } from "@/http/controllers/authenticate.controller";
+import { LoginController } from "@/http/controllers/login.controller";
 import { mainController } from "@/http/controllers/main.controller";
 import { registerController } from "@/http/controllers/register.controller";
 import { getAllUsersController } from "../controllers/users.controller";
+import { authenticate } from "../middleware/authenticate";
 
 export const appRoutes = async (app: FastifyInstance) => {
   app.get("/", mainController);
-  app.post("/user", registerController);
-  app.get("/users", getAllUsersController);
-  app.post("/sessions", AuthenticateController);
+  app.post("/register", registerController);
+  app.get("/users", { preHandler: [authenticate] }, getAllUsersController);
+  app.post("/login", LoginController);
 };

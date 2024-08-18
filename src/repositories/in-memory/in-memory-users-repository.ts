@@ -7,6 +7,9 @@ class InMemoryUsersRepository implements UsersRepositoryInterface {
   constructor() {
     this.users = [];
   }
+  getAllUsers(): Promise<User[]> {
+    return Promise.resolve(this.users);
+  }
   create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
       id: "any_id",

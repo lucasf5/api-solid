@@ -18,5 +18,7 @@ export const registerController = async (
 
   await registerService.execute({ name, email, password });
 
-  reply.status(201).send();
+  reply.status(201).send({
+    message: "User created successfully",
+  });
 };

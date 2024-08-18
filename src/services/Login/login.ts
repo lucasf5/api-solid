@@ -1,15 +1,16 @@
-import { UsersRepositoryInterface } from "@/repositories/prisma/users-repository-interface";
-import CustomError from "../@errors/CustomError";
+import { UsersRepositoryInterface } from "@/repositories/prisma/interfaces/users-repository-interface";
 import { compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
-import { env } from "@/env";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import CustomError from "../@errors/CustomError";
+dotenv.config();
 
-interface AuthenticateServiceRequest {
+interface LoginServiceRequest {
   email: string;
   password: string;
 }
 
-interface AuthenticateServiceResponse {
+interface LoginServiceResponse {
   user: {
     id: string;
     name: string;
@@ -18,7 +19,7 @@ interface AuthenticateServiceResponse {
   token: string;
 }
 
-export class AuthenticateService {
+export class LoginService {
   constructor(private usersRepository: UsersRepositoryInterface) {
     this.usersRepository = usersRepository;
   }
@@ -26,7 +27,7 @@ export class AuthenticateService {
   async execute({
     email,
     password,
-  }: AuthenticateServiceRequest): Promise<AuthenticateServiceResponse> {
+  }: LoginServiceRequest): Promise<LoginServiceResponse> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
@@ -39,18 +40,10 @@ export class AuthenticateService {
       throw new CustomError("Email or password incorrect", 401);
     }
 
-    const token = sign({}, env.JWT_SECRET, {
-      subject: user.email,
-      expiresIn: "1d",
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET ?? "", {
+      expiresIn: "1h",
     });
 
-    return {
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-      token,
-    };
+    return { user, token };
   }
 }

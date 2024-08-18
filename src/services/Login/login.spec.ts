@@ -1,23 +1,23 @@
-import { expect, describe, it, beforeAll, beforeEach } from "vitest";
-import { hash } from "bcryptjs";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
-import { AuthenticateService } from "./authenticate";
+import { hash } from "bcryptjs";
+import { describe, expect, it } from "vitest";
+import { LoginService } from "./login";
 
 interface Sut {
-  authenticateService: AuthenticateService;
+  loginService: LoginService;
   usersRepository: InMemoryUsersRepository;
 }
 
 const makeSut = (): Sut => {
   const usersRepository = new InMemoryUsersRepository();
-  const authenticateService = new AuthenticateService(usersRepository);
-  return { authenticateService, usersRepository };
+  const loginService = new LoginService(usersRepository);
+  return { loginService, usersRepository };
 };
 
-describe("authenticate", () => {
-  it("should authenticate a user", async () => {
+describe("Login", () => {
+  it("should Login a user", async () => {
     // Arrange
-    const { authenticateService, usersRepository } = makeSut();
+    const { loginService, usersRepository } = makeSut();
 
     await usersRepository.create({
       name: "any_name",
@@ -26,22 +26,22 @@ describe("authenticate", () => {
     });
 
     // Act
-    const body = await authenticateService.execute({
+    const body = await loginService.execute({
       email: "any_email",
       password: "12345678",
     });
 
     // Assert
-    expect(body.token).toBeDefined();
+    expect(body.user).toBeDefined();
   });
 
-  it("should not authenticate a user with invalid email", async () => {
+  it("should not Login a user with invalid email", async () => {
     // Arrange
-    const { authenticateService } = makeSut();
+    const { loginService } = makeSut();
 
     // Act
     try {
-      await authenticateService.execute({
+      await loginService.execute({
         email: "invalid_email",
         password: "12345678",
       });
@@ -52,9 +52,9 @@ describe("authenticate", () => {
     }
   });
 
-  it("should not authenticate a user with invalid password", async () => {
+  it("should not Login a user with invalid password", async () => {
     // Arrange
-    const { authenticateService, usersRepository } = makeSut();
+    const { loginService, usersRepository } = makeSut();
 
     await usersRepository.create({
       name: "any_name",
@@ -64,7 +64,7 @@ describe("authenticate", () => {
 
     // Act
     try {
-      await authenticateService.execute({
+      await loginService.execute({
         email: "any_email",
         password: "invalid_password",
       });
