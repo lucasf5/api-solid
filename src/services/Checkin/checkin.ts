@@ -17,11 +17,9 @@ interface CheckinServiceResponse {
 
 export class CheckinService {
   constructor(
-    private checkinRepository: CheckinsRepository,
-    private gymsRepository: GymsRepositoryInterface
-  ) {
-    this.checkinRepository = checkinRepository;
-  }
+    private readonly checkinRepository: CheckinsRepository,
+    private readonly gymsRepository: GymsRepositoryInterface
+  ) {}
 
   async execute({
     userId,
@@ -29,24 +27,37 @@ export class CheckinService {
     userLatitude,
     userLongitude,
   }: CheckinServiceRequest): Promise<CheckinServiceResponse> {
-    const gym = await this.gymsRepository.findById(gymId);
-
-    if (!gym) {
-      throw new CustomError("Gym not found", 404);
-    }
+    const gym = await this.getGymOrThrow(gymId);
 
     validateCheckinCoordinate(gym, userLatitude, userLongitude);
 
-    const checkinByUserIdAndDate =
+    await this.ensureNoCheckinToday(userId);
+
+    const checkIn = await this.createCheckin(gymId, userId);
+
+    return { checkIn };
+  }
+
+  private async getGymOrThrow(gymId: string) {
+    const gym = await this.gymsRepository.findById(gymId);
+    if (!gym) {
+      throw new CustomError("Gym not found", 404);
+    }
+    return gym;
+  }
+
+  private async ensureNoCheckinToday(userId: string) {
+    const checkinToday =
       await this.checkinRepository.findCheckinByUserIdAndDate(
         userId,
         new Date()
       );
-
-    if (checkinByUserIdAndDate !== null) {
+    if (checkinToday) {
       throw new CustomError("Check in failed", 400);
     }
+  }
 
+  private async createCheckin(gymId: string, userId: string): Promise<CheckIn> {
     const checkIn = await this.checkinRepository.create({
       gyn_id: gymId,
       user_id: userId,
@@ -56,6 +67,6 @@ export class CheckinService {
       throw new CustomError("Check in failed", 400);
     }
 
-    return { checkIn };
+    return checkIn;
   }
 }

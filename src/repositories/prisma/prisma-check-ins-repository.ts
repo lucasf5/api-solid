@@ -23,4 +23,23 @@ export class CheckinsRepository implements CheckinRepositoryInterface {
 
     return checkIn;
   }
+
+  async findCheckinsByUserId(userId: string, page: number): Promise<CheckIn[]> {
+    const checkIns = await prisma.checkIn.findMany({
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return checkIns;
+  }
+  countCheckinsByUserId(userId: string): Promise<number> {
+    const checkins = prisma.checkIn.count({
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return checkins;
+  }
 }

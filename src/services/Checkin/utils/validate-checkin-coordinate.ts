@@ -1,5 +1,5 @@
 import CustomError from "@/services/@errors/CustomError";
-import { getDistance } from "@/ultis/get-distance";
+import { getDistanceBetweenTwoCoordinates } from "@/services/Checkin/utils/get-distance";
 import { Gyn } from "@prisma/client";
 
 const MAX_DISTANCE_IN_METERS = 1000;
@@ -15,7 +15,10 @@ export const validateCheckinCoordinate = (
   };
   const userCoordinate = { latitude: userLatitude, longitude: userLongitude };
 
-  const distance = getDistance(gymCoordinate, userCoordinate);
+  const distance = getDistanceBetweenTwoCoordinates(
+    gymCoordinate,
+    userCoordinate
+  );
 
   if (distance > MAX_DISTANCE_IN_METERS) {
     throw new CustomError("You are too far from the gym", 400);

@@ -6,4 +6,6 @@ export interface CheckinRepositoryInterface {
     userId: string,
     date: Date
   ): Promise<CheckIn | null>;
+  findCheckinsByUserId(userId: string, page: number): Promise<CheckIn[]>;
+  countCheckinsByUserId(userId: string): Promise<number>;
 }

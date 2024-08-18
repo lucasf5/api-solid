@@ -3,7 +3,10 @@ export interface Coordinate {
   longitude: number;
 }
 
-export const getDistance = (from: Coordinate, to: Coordinate): number => {
+export const getDistanceBetweenTwoCoordinates = (
+  from: Coordinate,
+  to: Coordinate
+): number => {
   const R = 6371e3; // metres
   const φ1 = (from.latitude * Math.PI) / 180; // φ, λ in radians
   const φ2 = (to.latitude * Math.PI) / 180;
