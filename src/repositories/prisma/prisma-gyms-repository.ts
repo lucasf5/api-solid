@@ -20,4 +20,13 @@ export class GymsRepository implements GymsRepositoryInterface {
       throw new CustomError("Gym not created", 400);
     }
   }
+  SearchMany(name: string): Promise<Gyn[]> {
+    return prisma.gyn.findMany({
+      where: {
+        title: {
+          contains: name,
+        },
+      },
+    });
+  }
 }

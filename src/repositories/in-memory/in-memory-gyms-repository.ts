@@ -1,7 +1,7 @@
 import { Gyn, Prisma } from "@prisma/client";
-import { GymsRepositoryInterface } from "../prisma/interfaces/gyms-repository-interface";
-import { randomUUID } from "crypto";
 import { Decimal } from "@prisma/client/runtime/library";
+import { randomUUID } from "crypto";
+import { GymsRepositoryInterface } from "../prisma/interfaces/gyms-repository-interface";
 
 class InMemoryGymsRepository implements GymsRepositoryInterface {
   private Gyms: Gyn[] = [];
@@ -27,6 +27,10 @@ class InMemoryGymsRepository implements GymsRepositoryInterface {
 
     this.Gyms.push(gym);
 
+    return Promise.resolve(gym);
+  }
+  SearchMany(name: string): Promise<Gyn[]> {
+    const gym = this.Gyms.filter((gym) => gym.title.includes(name));
     return Promise.resolve(gym);
   }
 }
