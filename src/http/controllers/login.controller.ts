@@ -15,10 +15,20 @@ export const LoginController = async (
 
   const { authenticateService } = makeAuthenticateService();
 
-  const { token, user } = await authenticateService.execute({
+  const { user } = await authenticateService.execute({
     email,
     password,
   });
+
+  const token = await reply.jwtSign(
+    {
+      userId: user.id,
+      email: user.email,
+    },
+    {
+      expiresIn: "1h",
+    }
+  );
 
   reply.setCookie("token", token, {
     httpOnly: true,

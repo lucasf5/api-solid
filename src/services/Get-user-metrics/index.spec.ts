@@ -2,7 +2,7 @@ import { InMemoryCheckinsRepository } from "@/repositories/in-memory/in-memory-c
 import { InMemoryGymsRepository } from "@/repositories/in-memory/in-memory-gyms-repository";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GetUserMetrics } from ".";
+import { GetUserMetricsService } from ".";
 import { CheckinService } from "../Checkin/checkin";
 
 interface Sut {
@@ -10,7 +10,7 @@ interface Sut {
   checkinsRepository: InMemoryCheckinsRepository;
   gymsRepository: InMemoryGymsRepository;
   userRepository: InMemoryUsersRepository;
-  getUserMetrics: GetUserMetrics;
+  getUserMetrics: GetUserMetricsService;
 }
 
 const makeSut = (): Sut => {
@@ -18,7 +18,7 @@ const makeSut = (): Sut => {
   const gymsRepository = new InMemoryGymsRepository();
   const checkinsRepository = new InMemoryCheckinsRepository();
   const checkinService = new CheckinService(checkinsRepository, gymsRepository);
-  const getUserMetrics = new GetUserMetrics(checkinsRepository);
+  const getUserMetrics = new GetUserMetricsService(checkinsRepository);
 
   return {
     checkinService,

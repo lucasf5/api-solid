@@ -8,7 +8,7 @@ interface GetUserMetricsResponse {
   checkInsCount: number;
 }
 
-export class GetUserMetrics {
+export class GetUserMetricsService {
   constructor(private readonly checkinRepository: CheckinsRepository) {}
 
   async execute({

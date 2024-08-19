@@ -30,9 +30,14 @@ class InMemoryGymsRepository implements GymsRepositoryInterface {
 
     return Promise.resolve(gym);
   }
-  searchMany(name: string): Promise<Gyn[]> {
-    const gym = this.Gyms.filter((gym) => gym.title.includes(name));
-    return Promise.resolve(gym);
+
+  searchMany(query: string, page: number) {
+    const gyms = this.Gyms.filter((item) => item.title.includes(query)).slice(
+      (page - 1) * 20,
+      page * 20
+    );
+
+    return Promise.resolve(gyms);
   }
 
   nearbyGyms(data: {

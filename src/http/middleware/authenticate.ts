@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import CustomError from "@/services/@errors/CustomError";
 import { FastifyReply, FastifyRequest } from "fastify";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -18,8 +19,8 @@ export async function authenticate(
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
-    request.user = { userId: decoded.userId, email: decoded.email };
+    const decoded = jwt.verify(token, env.JWT_SECRET) as DecodedToken;
+    request.user = decoded;
   } catch (err) {
     throw new CustomError("Invalid token", 401);
   }

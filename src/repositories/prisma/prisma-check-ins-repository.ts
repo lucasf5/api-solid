@@ -15,7 +15,9 @@ export class CheckinsRepository implements CheckinRepositoryInterface {
       where: {
         user_id: userId,
         created_at: {
+          // greater then or equal to 00:00:00.000
           gte: new Date(date.setHours(0, 0, 0, 0)),
+          // less then to 23:59:59.999
           lt: new Date(date.setHours(23, 59, 59, 999)),
         },
       },
@@ -29,6 +31,8 @@ export class CheckinsRepository implements CheckinRepositoryInterface {
       where: {
         user_id: userId,
       },
+      take: 20,
+      skip: (page - 1) * 20,
     });
 
     return checkIns;

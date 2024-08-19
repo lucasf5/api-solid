@@ -1,18 +1,18 @@
 import { InMemoryCheckinsRepository } from "@/repositories/in-memory/in-memory-checkin-repository";
 import { InMemoryGymsRepository } from "@/repositories/in-memory/in-memory-gyms-repository";
 import { describe, expect, it } from "vitest";
-import { GetGymService } from ".";
+import { SearchGynService } from ".";
 
 interface Sut {
   checkinsRepository: InMemoryCheckinsRepository;
   gymsRepository: InMemoryGymsRepository;
-  getGym: GetGymService;
+  getGym: SearchGynService;
 }
 
 const makeSut = (): Sut => {
   const gymsRepository = new InMemoryGymsRepository();
   const checkinsRepository = new InMemoryCheckinsRepository();
-  const getGym = new GetGymService(gymsRepository);
+  const getGym = new SearchGynService(gymsRepository);
 
   return {
     gymsRepository,
@@ -37,7 +37,7 @@ describe("Fetch member check-ins history", () => {
       longitude: -46.6333,
     });
 
-    const response = await sut.getGym.execute({ name: "Academia" });
+    const response = await sut.getGym.execute({ name: "Academia", page: 1 });
 
     expect(response.gyms.length).toBe(2);
   });

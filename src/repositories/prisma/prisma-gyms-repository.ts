@@ -4,46 +4,39 @@ import { Gyn } from "@prisma/client";
 import { GymsRepositoryInterface } from "../interfaces/gyms-repository-interface";
 
 export class GymsRepository implements GymsRepositoryInterface {
-  findById(id: string): Promise<Gyn | null> {
-    return prisma.gyn.findUnique({
+  async findById(id: string): Promise<Gyn | null> {
+    return await prisma.gyn.findUnique({
       where: {
         id,
       },
     });
   }
-  create(data: any): Promise<Gyn> {
+  async create(data: any): Promise<Gyn> {
     try {
-      return prisma.gyn.create({
+      return await prisma.gyn.create({
         data,
       });
     } catch (error) {
       throw new CustomError("Gym not created", 400);
     }
   }
-  searchMany(name: string): Promise<Gyn[]> {
-    return prisma.gyn.findMany({
+  async searchMany(name: string, page: number): Promise<Gyn[]> {
+    return await prisma.gyn.findMany({
       where: {
         title: {
           contains: name,
         },
       },
+      take: 20,
+      skip: (page - 1) * 20,
     });
   }
-  nearbyGyms(data: {
+  async nearbyGyms(data: {
     userLatitude: number;
     userLongitude: number;
   }): Promise<Gyn[]> {
-    return prisma.gyn.findMany({
-      where: {
-        latitude: {
-          lt: data.userLatitude + 0.5,
-          gt: data.userLatitude - 0.5,
-        },
-        longitude: {
-          lt: data.userLongitude + 0.5,
-          gt: data.userLongitude - 0.5,
-        },
-      },
-    });
+    return await prisma.$queryRaw<
+      Gyn[]
+    >`SELECT * FROM gyms WHERE ST_Distance_Sphere(geom, ST_MakePoint(${data.userLatitude}, ${data.userLongitude})) < 10000`;
   }
 }

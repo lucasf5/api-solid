@@ -1,9 +1,7 @@
 import { UsersRepositoryInterface } from "@/repositories/interfaces/users-repository-interface";
+import { User } from "@prisma/client";
 import { compare } from "bcryptjs";
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import CustomError from "../@errors/CustomError";
-dotenv.config();
 
 interface LoginServiceRequest {
   email: string;
@@ -11,12 +9,7 @@ interface LoginServiceRequest {
 }
 
 interface LoginServiceResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  token: string;
+  user: User;
 }
 
 export class LoginService {
@@ -40,10 +33,6 @@ export class LoginService {
       throw new CustomError("Email or password incorrect", 401);
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET ?? "", {
-      expiresIn: "1h",
-    });
-
-    return { user, token };
+    return { user };
   }
 }
