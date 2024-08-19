@@ -13,7 +13,7 @@ export class GetGymService {
   constructor(private readonly gymRepository: GymsRepository) {}
 
   async execute({ name }: GetGymRequest): Promise<GetGymResponse> {
-    const gym = await this.gymRepository.SearchMany(name);
+    const gym = await this.gymRepository.searchMany(name);
 
     return { gyms: gym };
   }

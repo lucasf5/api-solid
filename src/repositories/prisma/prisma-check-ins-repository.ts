@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { CheckIn, Prisma } from "@prisma/client";
-import { CheckinRepositoryInterface } from "./interfaces/checkIns-repository-interface";
+import { CheckinRepositoryInterface } from "../interfaces/checkIns-repository-interface";
 
 export class CheckinsRepository implements CheckinRepositoryInterface {
   async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
@@ -41,5 +41,26 @@ export class CheckinsRepository implements CheckinRepositoryInterface {
     });
 
     return checkins;
+  }
+
+  async findCheckinById(checkInId: string): Promise<CheckIn | null> {
+    const checkIn = await prisma.checkIn.findUnique({
+      where: {
+        id: checkInId,
+      },
+    });
+
+    return checkIn;
+  }
+
+  async save(checkIn: CheckIn): Promise<CheckIn> {
+    const updatedCheckIn = await prisma.checkIn.update({
+      where: {
+        id: checkIn.id,
+      },
+      data: checkIn,
+    });
+
+    return updatedCheckIn;
   }
 }

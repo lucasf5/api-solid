@@ -1,7 +1,8 @@
+import { getDistanceBetweenTwoCoordinates } from "@/services/Checkin/utils/get-distance";
 import { Gyn, Prisma } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { randomUUID } from "crypto";
-import { GymsRepositoryInterface } from "../prisma/interfaces/gyms-repository-interface";
+import { GymsRepositoryInterface } from "../interfaces/gyms-repository-interface";
 
 class InMemoryGymsRepository implements GymsRepositoryInterface {
   private Gyms: Gyn[] = [];
@@ -29,9 +30,31 @@ class InMemoryGymsRepository implements GymsRepositoryInterface {
 
     return Promise.resolve(gym);
   }
-  SearchMany(name: string): Promise<Gyn[]> {
+  searchMany(name: string): Promise<Gyn[]> {
     const gym = this.Gyms.filter((gym) => gym.title.includes(name));
     return Promise.resolve(gym);
+  }
+
+  nearbyGyms(data: {
+    userLatitude: number;
+    userLongitude: number;
+  }): Promise<Gyn[]> {
+    const gyms = this.Gyms.filter((gym) => {
+      const distance = getDistanceBetweenTwoCoordinates(
+        {
+          latitude: data.userLatitude,
+          longitude: data.userLongitude,
+        },
+        {
+          latitude: gym.latitude.toNumber(),
+          longitude: gym.longitude.toNumber(),
+        }
+      );
+
+      return distance < 10000;
+    });
+
+    return Promise.resolve(gyms);
   }
 }
 

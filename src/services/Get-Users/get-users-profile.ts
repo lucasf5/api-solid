@@ -1,4 +1,4 @@
-import { UsersRepositoryInterface } from "@/repositories/prisma/interfaces/users-repository-interface";
+import { UsersRepositoryInterface } from "@/repositories/interfaces/users-repository-interface";
 import { User } from "@prisma/client";
 
 interface GetUsersProfileServiceResponse {

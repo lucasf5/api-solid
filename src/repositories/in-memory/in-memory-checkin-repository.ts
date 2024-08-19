@@ -1,6 +1,6 @@
 import { CheckIn, Prisma } from "@prisma/client";
 import { randomUUID } from "crypto";
-import { CheckinRepositoryInterface } from "../prisma/interfaces/checkIns-repository-interface";
+import { CheckinRepositoryInterface } from "../interfaces/checkIns-repository-interface";
 
 class InMemoryCheckinsRepository implements CheckinRepositoryInterface {
   private checkins: CheckIn[] = [];
@@ -47,6 +47,22 @@ class InMemoryCheckinsRepository implements CheckinRepositoryInterface {
       (checkin) => checkin.user_id === userId
     );
     return Promise.resolve(checkins.length);
+  }
+
+  findCheckinById(checkInId: string): Promise<CheckIn | null> {
+    const checkin = this.checkins.find((checkin) => checkin.id === checkInId);
+
+    return Promise.resolve(checkin || null);
+  }
+
+  save(checkIn: CheckIn): Promise<CheckIn> {
+    const index = this.checkins.findIndex(
+      (checkin) => checkin.id === checkIn.id
+    );
+
+    this.checkins[index] = checkIn;
+
+    return Promise.resolve(checkIn);
   }
 }
 

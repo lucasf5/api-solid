@@ -1,4 +1,4 @@
-import { GymsRepositoryInterface } from "@/repositories/prisma/interfaces/gyms-repository-interface";
+import { GymsRepositoryInterface } from "@/repositories/interfaces/gyms-repository-interface";
 import { CheckinsRepository } from "@/repositories/prisma/prisma-check-ins-repository";
 import { CheckIn } from "@prisma/client";
 import CustomError from "../@errors/CustomError";

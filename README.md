@@ -10,9 +10,9 @@ GymPass style app.
 - [✅] O usuário deve ser capaz de obter o perfil do usuário logado.
 - [✅] O usuário deve ser capaz de obter o número de check-ins do usuário logado.
 - [✅] O usuário deve ser capaz de obter o seu historico de check-ins.
-- [ ] O usuário deve ser capaz de buscar academias próximas.
+- [✅] O usuário deve ser capaz de buscar academias próximas.
 - [✅] O usuário deve ser capaz de buscar academias por nome.
-- [ ] A academia deve ser capaz de validar o check-in do usuário.
+- [✅] A academia deve ser capaz de validar o check-in do usuário.
 - [✅] Deve ser possível cadastrar academias.
 
 ## RNFs (Requisitos Não Funcionais)
@@ -29,6 +29,7 @@ GymPass style app.
 
 - [✅] O usuário não pode se cadastrar com o mesmo e-mail.
 - [✅] O usuário não pode fazer 2 check-ins no mesmo dia.
-- [✅] O usuário não pode fazer check-in se não estiver próximo a uma academia. (100m)
-- [ ] O check-in só pode ser validado até 20 min após o check-in.
-- [ ] O check-in só pode ser validado pela academia que o usuário fez o check-in.
+- [✅] O usuário não pode fazer check-in se não estiver próximo a uma academia. (10km)
+- [✅] O check-in só pode ser validado até 20 min após o check-in.
+- [ ] O check-in só pode ser validado por adms.
+- [ ] A academia só pode ser cadastrada por adms.

@@ -1,4 +1,4 @@
-import { GymsRepositoryInterface } from "@/repositories/prisma/interfaces/gyms-repository-interface";
+import { GymsRepositoryInterface } from "@/repositories/interfaces/gyms-repository-interface";
 import { Gyn } from "@prisma/client";
 
 interface GymServiceRequest {

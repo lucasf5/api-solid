@@ -8,4 +8,6 @@ export interface CheckinRepositoryInterface {
   ): Promise<CheckIn | null>;
   findCheckinsByUserId(userId: string, page: number): Promise<CheckIn[]>;
   countCheckinsByUserId(userId: string): Promise<number>;
+  findCheckinById(checkInId: string): Promise<CheckIn | null>;
+  save(checkIn: CheckIn): Promise<CheckIn>;
 }

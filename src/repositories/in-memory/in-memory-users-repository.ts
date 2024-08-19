@@ -1,5 +1,5 @@
 import { Prisma, User } from "@prisma/client";
-import { UsersRepositoryInterface } from "../prisma/interfaces/users-repository-interface";
+import { UsersRepositoryInterface } from "../interfaces/users-repository-interface";
 
 class InMemoryUsersRepository implements UsersRepositoryInterface {
   private users: User[] = [];
