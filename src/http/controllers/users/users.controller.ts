@@ -2,7 +2,7 @@ import { MakeGetUsersService } from "@/services/@factories/make-get-users-servic
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export const getAllUsersController = async (
-  req: FastifyRequest,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   const { getUsersProfileService } = MakeGetUsersService();

@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export const LoginController = async (
-  req: FastifyRequest,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   const authBodySchema = z.object({
@@ -11,7 +11,7 @@ export const LoginController = async (
     password: z.string().min(8),
   });
 
-  const { email, password } = authBodySchema.parse(req.body);
+  const { email, password } = authBodySchema.parse(request.body);
 
   const { authenticateService } = makeAuthenticateService();
 

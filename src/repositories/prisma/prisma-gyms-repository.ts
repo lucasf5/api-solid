@@ -20,11 +20,12 @@ export class GymsRepository implements GymsRepositoryInterface {
       throw new CustomError("Gym not created", 400);
     }
   }
-  async searchMany(name: string, page: number): Promise<Gyn[]> {
+  async searchMany(title: string, page: number): Promise<Gyn[]> {
     return await prisma.gyn.findMany({
       where: {
         title: {
-          contains: name,
+          contains: title,
+          mode: "insensitive",
         },
       },
       take: 20,
@@ -35,8 +36,15 @@ export class GymsRepository implements GymsRepositoryInterface {
     userLatitude: number;
     userLongitude: number;
   }): Promise<Gyn[]> {
-    return await prisma.$queryRaw<
-      Gyn[]
-    >`SELECT * FROM gyms WHERE ST_Distance_Sphere(geom, ST_MakePoint(${data.userLatitude}, ${data.userLongitude})) < 10000`;
+    const { userLatitude, userLongitude } = data;
+    try {
+      return await prisma.$queryRaw<
+        Gyn[]
+      >`SELECT * from gyms WHERE ( 6371 * acos( cos( radians(${userLatitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${userLongitude}) ) + sin( radians(${userLatitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+    `;
+    } catch (error) {
+      console.error("Error fetching nearby gyms:", error);
+      throw new CustomError("Gyms not found", 404);
+    }
   }
 }

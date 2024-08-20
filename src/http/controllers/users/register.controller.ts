@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export const registerController = async (
-  req: FastifyRequest,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   const registerBodySchema = z.object({
@@ -12,7 +12,7 @@ export const registerController = async (
     password: z.string().min(8),
   });
 
-  const { name, email, password } = registerBodySchema.parse(req.body);
+  const { name, email, password } = registerBodySchema.parse(request.body);
 
   const { registerService } = makeRegisterService();
 

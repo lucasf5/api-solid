@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 
 interface FetchMemberCheckInsHistoryServiceRequest {
   userId: string;
-  page?: number | null;
+  page: number;
 }
 
 interface FetchMemberCheckInsHistoryServiceResponse {
@@ -19,7 +19,7 @@ export class FetchMemberCheckInsHistoryService {
   }: FetchMemberCheckInsHistoryServiceRequest): Promise<FetchMemberCheckInsHistoryServiceResponse> {
     const checkIns = await this.checkinRepository.findCheckinsByUserId(
       userId,
-      page || 1
+      page
     );
 
     return { checkIns };

@@ -7,11 +7,15 @@
     "dev": "tsx watch src/server.ts --onSuccess",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
-    "test": "vitest run",
-    "test:watch": "vitest run --watch",
+    "test": "vitest run --dir src/services",
+    "test:watch": "vitest run --watch --dir src/services",
     "covarage": "vitest run --coverage",
     "ui": "vitest --ui",
-    "prisma": "npx prisma migrate dev --name init && npx prisma generate"
+    "prisma": "npx prisma migrate dev --name init && npx prisma generate",
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "test:e2e": "vitest run --dir src/http",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +25,7 @@
     "@rocketseat/eslint-config": "2.2.2",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "^20.12.7",
+    "@types/supertest": "6.0.2",
     "@vitest/coverage-v8": "1.5.3",
     "@vitest/ui": "1.5.3",
     "eslint": "8.57.0",
@@ -28,6 +33,7 @@
     "jsonwebtoken": "9.0.2",
     "npm": "10.8.2",
     "prisma": "5.18.0",
+    "supertest": "7.0.0",
     "tsup": "^8.0.2",
     "tsx": "^4.7.3",
     "typescript": "^5.4.5",
@@ -42,6 +48,8 @@
     "bcryptjs": "2.4.3",
     "dotenv": "16.4.5",
     "fastify": "^4.26.2",
+    "npm-run-all": "4.1.5",
+    "vitest-environment-prisma": "0.4.2",
     "zod": "3.23.8"
   }
 }
