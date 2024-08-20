@@ -31,5 +31,5 @@ GymPass style app.
 - [✅] O usuário não pode fazer 2 check-ins no mesmo dia.
 - [✅] O usuário não pode fazer check-in se não estiver próximo a uma academia. (10km)
 - [✅] O check-in só pode ser validado até 20 min após o check-in.
-- [ ] O check-in só pode ser validado por adms.
-- [ ] A academia só pode ser cadastrada por adms.
+- [✅] O check-in só pode ser validado por adms.
+- [✅] A academia só pode ser cadastrada por adms.
