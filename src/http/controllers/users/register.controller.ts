@@ -11,7 +11,7 @@ export const registerController = async (
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(8),
-    role: z.enum([ROLE.MEMBER, ROLE.ADMIN]),
+    role: z.enum([ROLE.MEMBER, ROLE.ADMIN]).optional().default(ROLE.MEMBER),
   });
 
   const { name, email, password, role } = registerBodySchema.parse(

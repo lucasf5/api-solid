@@ -30,6 +30,7 @@ describe("Login Controller", () => {
         email: "teste@mail.com",
         password_hash: expect.any(String),
         created_at: expect.any(String),
+        role: "MEMBER",
       },
     });
   });
