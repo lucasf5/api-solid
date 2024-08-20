@@ -15,6 +15,13 @@ app.register(fastifyCors, {
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "token",
+    signed: true,
+  },
+  sign: {
+    expiresIn: "1h",
+  },
 });
 
 app.register(appRoutes);

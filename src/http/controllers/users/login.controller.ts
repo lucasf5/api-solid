@@ -24,18 +24,18 @@ export const LoginController = async (
     {
       userId: user.id,
       email: user.email,
+      role: user.role,
     },
     {
-      expiresIn: "1h",
+      expiresIn: "1d",
     }
   );
 
   reply.setCookie("token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: true,
     path: "/",
-    maxAge: 3600,
   });
 
   reply.status(200).send({ user });

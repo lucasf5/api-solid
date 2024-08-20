@@ -1,3 +1,4 @@
+import { ROLE } from "@prisma/client";
 import "fastify";
 
 declare module "fastify" {
@@ -5,6 +6,7 @@ declare module "fastify" {
     user: {
       userId: string;
       email: string;
+      role: ROLE;
     };
   }
 }
