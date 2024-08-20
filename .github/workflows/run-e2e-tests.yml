@@ -1,33 +1,33 @@
-name: Run end-to-end tests
+name: Run E2E Tests
 
 on: [push]
 
 jobs:
   run-e2e-tests:
-    name: Run End-to-End tests
+    name: Run E2E Tests
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: bitnami/postgresql
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: docker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DATABASE: apisolid
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
-        cache: 'npm'
+      - uses: actions/checkout@v3
 
-    # Install Docker Compose
-    - name: Install Docker Compose
-      run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
 
-    - name: Start services
-      run: docker-compose up -d
-      
-    - name: Wait for Postgres
-      run: until docker-compose exec -T postgres pg_isready -U postgres; do sleep 1; done
+      - run: npm ci
 
-    - run: npm ci
-    - run: npm run test:e2e
-      env: 
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/mydb?schema=public"
+      - run: npm run test:e2e
+        env:
+          JWT_SECRET: testing
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
