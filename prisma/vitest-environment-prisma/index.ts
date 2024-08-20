@@ -28,7 +28,14 @@ export default <Environment>{
 
     process.env.DATABASE_URL = databaseURL;
 
-    execSync("npx prisma migrate deploy");
+    try {
+      execSync("npx prisma migrate deploy");
+    } catch (error) {
+      console.error("Migration failed:", error);
+      throw new Error(
+        "Migration process failed. Please check your database and migrations."
+      );
+    }
 
     return {
       async teardown() {
