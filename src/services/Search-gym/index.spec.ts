@@ -37,7 +37,7 @@ describe("Fetch member check-ins history", () => {
       longitude: -46.6333,
     });
 
-    const response = await sut.getGym.execute({ name: "Academia", page: 1 });
+    const response = await sut.getGym.execute({ title: "Academia", page: 1 });
 
     expect(response.gyms.length).toBe(2);
   });

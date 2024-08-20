@@ -81,6 +81,7 @@ describe("Fetch member check-ins history", () => {
 
     const body = await sut.fetchMemberCheckInsHistoryService.execute({
       userId: user.id,
+      page: 1,
     });
 
     expect(body.checkIns).toHaveLength(3);
